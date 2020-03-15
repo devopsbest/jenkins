@@ -1,0 +1,26 @@
+import requests
+import json
+import jsonpath
+
+
+header = {
+        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 '
+                      '(KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36'
+    }
+
+url = 'https://36kr.com/api/newsflash?&per_page=20'
+response = requests.get(url,
+                        headers=header,
+                        timeout=5
+                        )
+
+dict = json.loads(response.text)
+
+
+title=jsonpath.jsonpath(dict,"$..title]")
+des=jsonpath.jsonpath(dict, '$..description')
+publish=jsonpath.jsonpath(dict, '$..published_at')
+
+for i in range(20):
+    print(title[i]," ",des[i], " ", publish[i])
